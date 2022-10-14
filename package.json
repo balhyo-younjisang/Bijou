@@ -1,0 +1,35 @@
+{
+  "name": "8363",
+  "version": "1.0.0",
+  "description": "8363's website",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/balhyo-younjisang/-8363.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --exec babel-node src/init.js"
+  },
+  "author": "Younjisang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/balhyo-younjisang/-8363/issues"
+  },
+  "homepage": "https://github.com/balhyo-younjisang/-8363#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.1",
+    "express": "^4.18.2",
+    "mongoose": "^6.6.5",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "pug": "^3.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.19.3",
+    "@babel/node": "^7.19.1",
+    "@babel/preset-env": "^7.19.4",
+    "nodemon": "^2.0.20"
+  }
+}
