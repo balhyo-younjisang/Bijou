@@ -1,0 +1,11 @@
+extends base 
+
+block content 
+    h4 Change Photo's setting 
+    form(method="POST", enctype="multipart/form-data")
+        input(type="file", id="main-photo", name="main", accept="image/*", value=photo.mainphotoUrl)
+        input(name="title", placeholder="Title", value=photo.title, required)
+        input(placeholder="Description", required, type="text", name="description", value=photo.description)
+        input(placeholder="Hashtags, separated by comma.", required, type="text", name="hashtags", value=photo.hashtags.join())
+        input(placeholder="Price", required, type="text", name="price", value=photo.price)
+        input(value="Save", type="submit")

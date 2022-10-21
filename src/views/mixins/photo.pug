@@ -1,6 +1,10 @@
 mixin photo(photo)
-    div 
+    div
         h4 
             a(href=`/photos/${photo.id}`)=photo.title
-        ul 
-            li $#{photo.price}
+        p=photo.description
+        ul
+            each hashtag in photo.hashtags
+                li=hashtag
+        p=`$${photo.price}`
+        hr

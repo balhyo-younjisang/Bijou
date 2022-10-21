@@ -1,2 +1,9 @@
 extends base.pug
 
+block content 
+    div 
+        p=photo.description
+        p=photo.price
+    a(href=`${photo.id}/edit`) Edit Photo &rarr;
+    br
+    a(href=`${photo.id}/delete`) Delete Photo &rarr;

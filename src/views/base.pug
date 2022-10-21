@@ -10,12 +10,22 @@ html(lang="ko")
             ul
                 li
                     a(href="/") Home
-                li
-                    a(href="/join")  Join
+                if loggedIn 
+                    li 
+                        a(href="/users/edit") Edit Profile
+                    li 
+                        a(href="/users/logout") Log Out
+                    li 
+                        a(href="/my-profile") #{loggedInUser.name}'s profile
+                    li 
+                        a(href="/photos/upload") Upload 
+                else
+                    li
+                        a(href="/join")  Join
+                    li 
+                        a(href="/login") Login
                 li 
-                    a(href="/login") Login
-                li 
-                    a(href="/photos/upload") Upload
+                    a(href="/search") Search
         main
             block content
         include partials/footer.pug

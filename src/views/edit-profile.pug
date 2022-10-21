@@ -1,0 +1,10 @@
+extends base 
+
+block content 
+    form(method="POST") 
+        input(name="name", type="text", required, placeholder="Name", value=loggedInUser.name)
+        input(name="email", type="email", required, placeholder="Email", value=loggedInUser.email)
+        input(name="username", type="text", required, placeholder="Username", value=loggedInUser.username)
+        input(type="submit", value="Update Profile")
+        hr 
+        a(href="change-password") Change Password &rarr;

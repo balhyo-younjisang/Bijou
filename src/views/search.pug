@@ -1,0 +1,10 @@
+extends base
+include mixins/photo
+
+block content 
+    form(method="GET")  
+        input(placeholder = "Search by title, hashtag", type="text", name="keyword")
+        input(type="submit", value="search now")
+
+    each photo in photos 
+        +photo(photo)
