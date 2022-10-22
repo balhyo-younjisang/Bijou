@@ -13,7 +13,8 @@ const logger = morgan("dev");
 app.set("view engine", "pug");
 app.set("views", "src/views");
 
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(logger);
 app.use(
   session({
@@ -24,6 +25,7 @@ app.use(
   })
 );
 app.use(localsMiddleware);
+app.use("/uploads", express.static("uploads"));
 app.use("/", globalRouter);
 app.use("/photos", photoRouter);
 app.use("/users", userRouter);

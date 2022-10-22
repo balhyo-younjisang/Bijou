@@ -16,21 +16,23 @@ export const getEdit = async (req, res) => {
 };
 
 export const postEdit = async (req, res) => {
+  //console.log(req);
   const { id } = req.params;
-  const { title, description, hashtags, price, mainphotoUrl } = req.body;
+  const { title, description, hashtags, price, main } = req.body;
+  //console.log(req.body);
   const { file } = req;
   const photo = await Photo.exists({ _id: id });
   if (!photo) {
     return res.render("404", { pageTitle: "Video not found." });
   }
   await Photo.findByIdAndUpdate(id, {
-    mmainphotoUrl: file ? file.path : mainphotoUrl,
+    mainphotoUrl: file ? file.path : main,
     title,
     description,
     hashtags: Photo.formatHashtags(hashtags),
     price,
   });
-  return res.redirect(`/photos/${id}`);
+  return res.redirect(`/`);
 };
 
 export const deletePhoto = async (req, res) => {
