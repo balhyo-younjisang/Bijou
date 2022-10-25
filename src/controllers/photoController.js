@@ -1,4 +1,6 @@
 import Photo from "../models/Photo";
+import sharp from "sharp";
+import fs from "fs";
 
 export const home = async (req, res) => {
   const photos = await Photo.find({});
@@ -6,7 +8,7 @@ export const home = async (req, res) => {
   return res.render("home", { pageTitle: "Home", photos });
 };
 
-export const getEdit = async (req, res) => {
+export const getEdit = async (req, res, next) => {
   const { id } = req.params;
   const photo = await Photo.findById(id);
   if (!photo) {
@@ -16,17 +18,14 @@ export const getEdit = async (req, res) => {
 };
 
 export const postEdit = async (req, res) => {
-  //console.log(req);
   const { id } = req.params;
   const { title, description, hashtags, price, main } = req.body;
-  //console.log(req.body);
   const { file } = req;
   const photo = await Photo.exists({ _id: id });
   if (!photo) {
     return res.render("404", { pageTitle: "Video not found." });
   }
   await Photo.findByIdAndUpdate(id, {
-    mainphotoUrl: file ? file.path : main,
     title,
     description,
     hashtags: Photo.formatHashtags(hashtags),
@@ -36,7 +35,9 @@ export const postEdit = async (req, res) => {
 };
 
 export const deletePhoto = async (req, res) => {
+  const {file} = req.body;
   const { id } = req.params;
+  console.log();
   await Photo.findByIdAndDelete(id);
   return res.redirect("/");
 };
@@ -50,7 +51,7 @@ export const handleWatch = async (req, res) => {
   return res.render("404", { pageTitle: "Photo not found." });
 };
 
-export const getUpload = (req, res) => {
+export const getUpload = async (req, res) => {
   return res.render("upload", { pageTitle: "Upload Photo" });
 };
 
@@ -59,10 +60,19 @@ export const postUpload = async (req, res) => {
     body: { title, description, hashtags, price, mainphotoUrl },
     file,
   } = req;
-  //console.log(file);
+  console.log(file)
+  let imagePath = `${file.path}`
+  sharp(imagePath).resize({width:400, height:500}).toFile(`${imagePath}_resize`);
+  try {
+      fs.unlinkSync(file.path)
+  } catch (error) {
+    if(error.code == 'ENOENT'){
+        console.log("파일 삭제 Error 발생");
+    }
+  }
   try {
     await Photo.create({
-      mainphotoUrl: file.path,
+      mainphotoUrl: imagePath + '_resize',
       title,
       description,
       hashtags: Photo.formatHashtags(hashtags),

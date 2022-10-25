@@ -11,6 +11,7 @@ export const protectorMiddleware = (req, res, next) => {
   if (req.session.loggedIn) {
     next();
   } else {
+    req.flash("error", "Not authorized");
     return res.redirect("/login");
   }
 };
@@ -19,8 +20,22 @@ export const publicOnlyMiddleware = (req, res, next) => {
   if (!req.session.loggedIn) {
     return next();
   } else {
+    req.flash("error", "Not authorized");
     return res.redirect("/");
   }
 };
 
 export const uploadFiles = multer({ dest: "uploads/" });
+
+export const adminOnlyMiddleware = (req, res, next) => {
+  if (req.session.user.email === process.env.ADMIN_EMAIL) {
+    res.locals.isAdmin= true;
+    //console.log(res.locals);
+    next();
+  } else {
+    res.locals.isAdmin = false;
+    //console.log(res.locals);
+    req.flash("error", "Not authorized");
+    //return res.redirect("/");
+  }
+};

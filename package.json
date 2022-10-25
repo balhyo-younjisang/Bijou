@@ -9,7 +9,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --exec babel-node src/init.js"
+    "dev:server": "nodemon",
+    "dev:assets": "webpack"
   },
   "author": "Younjisang",
   "license": "MIT",
@@ -18,21 +19,39 @@
   },
   "homepage": "https://github.com/balhyo-younjisang/-8363#readme",
   "dependencies": {
+    "@admin-bro/express": "^3.1.0",
+    "@admin-bro/mongoose": "^1.1.0",
+    "admin-bro": "^4.0.1",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
     "connect-mongo": "^4.6.0",
+    "d3": "^7.6.1",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "express-flash": "^0.0.2",
+    "express-formidable": "^1.2.0",
     "express-session": "^1.17.3",
+    "jsdom": "^20.0.1",
     "mongoose": "^6.6.5",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
-    "pug": "^3.0.2"
+    "pug": "^3.0.2",
+    "request-ip": "^3.3.0",
+    "sharp": "^0.31.1",
+    "tslib": "^2.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@babel/node": "^7.19.1",
     "@babel/preset-env": "^7.19.4",
-    "nodemon": "^2.0.20"
+    "babel-loader": "^8.2.5",
+    "css-loader": "^6.7.1",
+    "mini-css-extract-plugin": "^2.6.1",
+    "nodemon": "^2.0.20",
+    "sass": "^1.55.0",
+    "sass-loader": "^13.1.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
   }
 }

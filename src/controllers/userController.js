@@ -41,6 +41,7 @@ export const getLogin = (req, res) => {
 };
 export const postLogin = async (req, res) => {
   const { username, password } = req.body;
+  console.log(req);
   const user = await User.findOne({ username });
   const pageTitle = "Login";
   if (!user) {
@@ -56,12 +57,13 @@ export const postLogin = async (req, res) => {
       errorMessage: "Wrong password",
     });
   }
+
   req.session.loggedIn = true;
   req.session.user = user;
   return res.redirect("/");
 };
 export const logout = (req, res) => {
-  req.session.destroy();
+  req.session.destroy();  
   res.redirect("/");
 };
 
@@ -124,9 +126,18 @@ export const postChangePassword = async (req, res) => {
   user.password = newPassword;
   await user.save();
   req.session.user.password = user.password;
+  req.flash("info", "Password updated.");
   return res.redirect("/users/logout");
 };
 
-export const see = (req, res) => {
-  return res.send("see");
+export const see = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id);
+  if (!user) {
+     return res.status(404).render("404", { pageTitle: "User not found." });  
+  }
+  return res.render("users/profile", {
+    pageTitle: user.name,
+    user,
+  });
 };
