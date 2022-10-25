@@ -60,9 +60,9 @@ export const postUpload = async (req, res) => {
     body: { title, description, hashtags, price, mainphotoUrl },
     file,
   } = req;
-  console.log(file)
-  let imagePath = `${file.path}`
-  sharp(imagePath).resize({width:400, height:500}).toFile(`${imagePath}_resize`);
+  // let imagePath = `${file.path}`
+  console.log(file.path)
+  await sharp(file.path).resize({width:400, height:500}).toFile(`${file.path}_resize`);
   try {
       fs.unlinkSync(file.path)
   } catch (error) {
@@ -72,7 +72,7 @@ export const postUpload = async (req, res) => {
   }
   try {
     await Photo.create({
-      mainphotoUrl: imagePath + '_resize',
+      mainphotoUrl: file.path + '_resize',
       title,
       description,
       hashtags: Photo.formatHashtags(hashtags),
