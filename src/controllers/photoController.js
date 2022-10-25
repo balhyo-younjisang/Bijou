@@ -12,20 +12,32 @@ export const getEdit = async (req, res, next) => {
   const { id } = req.params;
   const photo = await Photo.findById(id);
   if (!photo) {
-    return res.render("404", { pageTitle: "Video not found." });
+    return res.status(404).render("404", { pageTitle: "Video not found." });
   }
   return res.render("edit", { pageTitle: `Edit:${photo.title}`, photo });
 };
 
 export const postEdit = async (req, res) => {
   const { id } = req.params;
-  const { title, description, hashtags, price, main } = req.body;
+  const { title, description, hashtags, price } = req.body;
   const { file } = req;
-  const photo = await Photo.exists({ _id: id });
+  const photo = await Photo.exists({_id:id})
+  const photoData = await Photo.findById(photo._id);
   if (!photo) {
-    return res.render("404", { pageTitle: "Video not found." });
+    return res.status(404).render("404", { pageTitle: "Video not found." });
   }
-  await Photo.findByIdAndUpdate(id, {
+  if(file) {
+    await sharp(file.path).resize({width:400, height:500}).toFile(`${file.path}_resize`);
+    try {
+        fs.unlinkSync(file.path)
+    } catch (error) {
+      if(error.code == 'ENOENT'){
+          console.log("파일 삭제 Error 발생");
+      }
+    }
+  } 
+  await Photo.findByIdAndUpdate(photo._id, {
+    mainphotoUrl: file ? file.path + '_resize' : photoData.mainphotoUrl,
     title,
     description,
     hashtags: Photo.formatHashtags(hashtags),
@@ -35,9 +47,17 @@ export const postEdit = async (req, res) => {
 };
 
 export const deletePhoto = async (req, res) => {
-  const {file} = req.body;
   const { id } = req.params;
-  console.log();
+  const photo = await Photo.exists({_id: id});
+  const photoData = await Photo.findById(photo._id);
+  const fileUrl = photoData.mainphotoUrl;
+  try {
+    fs.unlinkSync(fileUrl)
+  }  catch (error) { 
+  if(error.code == 'ENOENT'){
+      console.log("파일 삭제 Error 발생");
+    }
+  }
   await Photo.findByIdAndDelete(id);
   return res.redirect("/");
 };
@@ -48,7 +68,7 @@ export const handleWatch = async (req, res) => {
   if (photo) {
     return res.render("watch", { pageTitle: photo.title, photo });
   }
-  return res.render("404", { pageTitle: "Photo not found." });
+  return res.status(404).render("404", { pageTitle: "Photo not found." });
 };
 
 export const getUpload = async (req, res) => {

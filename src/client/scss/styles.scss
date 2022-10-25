@@ -1,5 +1,11 @@
 @import "./_variables";
 
+
+// Screens
+@import "./screens/home.scss";
+
+
+// Defaults
 * {
   margin: 0;
   padding: 0;
@@ -25,10 +31,6 @@ section>ul>li {
   display: inline;
 }
 
-// header,
-// footer {
-//   height: 10%;
-// }
 
 .header, footer {
   height: 10vh;
@@ -49,9 +51,6 @@ section>ul>li {
   padding: 20px;
 }
 
-// main {
-//   height: 80%;
-// }
 
 body::-webkit-scrollbar {
   width: 10px;
@@ -64,21 +63,6 @@ body::-webkit-scrollbar-track {
   background-color: grey;
   border-radius: 10px;
   box-shadow: inset 0px 0px 5px white;
-}
-
-// main {
-//   display: grid;
-//   grid-template-columns: 1fr 1fr 1fr;
-// }
-
-.photo-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-}
-
-.photos {
-  display: inline-block;
-  padding: 100px;
 }
 
 footer {

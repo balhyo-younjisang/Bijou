@@ -1,0 +1,16 @@
+
+.wrap {
+    min-height: 100vh;
+    position: relative;
+    width: 100%;
+  }
+  
+.photo-container {
+display: grid;
+grid-template-columns: 1fr 1fr 1fr;
+}
+
+.photos {
+display: inline-block;
+padding: 100px;
+}

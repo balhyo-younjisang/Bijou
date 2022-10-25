@@ -2,7 +2,9 @@ extends base.pug
 include mixins/photo
 
 block content 
-    each photo in photos
-        +photo(photo)
-    else 
-        h2 No photo
+    div.wrap
+        div.photo-container
+            each photo in photos
+                +photo(photo)
+            else 
+                h2 No photo
