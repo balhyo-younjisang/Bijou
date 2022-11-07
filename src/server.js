@@ -10,6 +10,7 @@ import MongoStore from "connect-mongo";
 import globalRouter from "./routers/globalRouter";
 import photoRouter from "./routers/photoRouter";
 import userRouter from "./routers/userRouter";
+import termRouter from "./routers/termRouter";
 import { localsMiddleware } from "./middlewares";
 import mongoose from "mongoose";
 import flash from "express-flash"
@@ -57,6 +58,6 @@ app.use("/assets", express.static("assets"));
 app.use("/", globalRouter);
 app.use("/photos", photoRouter);
 app.use("/users", userRouter);
-
+app.use("/terms", termRouter);
 
 export default app;

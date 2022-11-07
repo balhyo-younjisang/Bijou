@@ -1,13 +1,13 @@
 mixin photo(photo)
-        div.photos
-            a(href=`/photos/${photo.id}`)
-                img(src="/"+photo.mainphotoUrl, width=400, height=500)
-        
-            h4 
+        span.photos
+            span 
+                a(href=`/photos/${photo.id}`)
+                    img(src="/"+photo.mainphotoUrl, width=400, height=500)
+            h4.items 
                 a(href=`/photos/${photo.id}`)=photo.title
-            p=photo.description
-            ul
+            p.items=photo.description
+            ul.items.list-unstyled
                 each hashtag in photo.hashtags
                     li=hashtag
-            p=`$${photo.price}`
+            p.items.price=`$${photo.price}`
         

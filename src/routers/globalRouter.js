@@ -6,11 +6,11 @@ import {
   postLogin,
 } from "../controllers/userController";
 import { home, search } from "../controllers/photoController";
-import { protectorMiddleware, publicOnlyMiddleware } from "../middlewares";
+import { protectorMiddleware, publicOnlyMiddleware, adminOnlyMiddleware } from "../middlewares";
 
 const globalRouter = express.Router();
 
-globalRouter.get("/", home);
+globalRouter.get("/", adminOnlyMiddleware, home);
 globalRouter
   .route("/join")
   .all(publicOnlyMiddleware)

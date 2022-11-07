@@ -28,14 +28,14 @@ export const publicOnlyMiddleware = (req, res, next) => {
 export const uploadFiles = multer({ dest: "uploads/" });
 
 export const adminOnlyMiddleware = (req, res, next) => {
-  if (req.session.user.email === process.env.ADMIN_EMAIL) {
-    res.locals.isAdmin= true;
+  if (req.session.email === undefined || req.session.user.email !== process.env.ADMIN_EMAIL) {
+    res.locals.isAdmin= false;
     //console.log(res.locals);
-    next();
   } else {
-    res.locals.isAdmin = false;
+    res.locals.isAdmin = true;
     //console.log(res.locals);
-    req.flash("error", "Not authorized");
+    //req.flash("error", "Not authorized");
     //return res.redirect("/");
   }
+  next();
 };

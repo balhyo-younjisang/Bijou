@@ -2,8 +2,13 @@ extends base
 
 block content 
     form(method="POST", action="/photos/upload", enctype="multipart/form-data")
-        label(for="photos") Photos 
+        label(for="main") Main photo 
         input(type="file", id="main-photo", name="main", accept="image/*")
+        label(for="photos") Photo file
+        input(type="file", id="photos", name="photos", accept=".zip")
+        br
+        label 
+            h4 상세 정보
         input(placeholder="Title", required, type="text", name="title")
         input(placeholder="Description", required, type="text", name="description")
         input(placeholder="Hashtags, separated by comma.", required, type="text", name="hashtags")

@@ -1,10 +1,15 @@
 extends base.pug
 
+block header 
+    script(type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js")
+    script(type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js")
+
 block content 
-    img(src="/" + photo.mainphotoUrl)
-    div 
-        p=photo.description
-        p=photo.price
-    a(href=`${photo.id}/edit`) Edit Photo &rarr;
-    br
-    a(href=`${photo.id}/delete`) Delete Photo &rarr;
+    div.img_container
+        img(src="/" + photo.bigphotoUrl)
+    div.explain_container
+        h2=photo.description
+        h2=`$${photo.price}`
+        a(href=`${photo.id}/edit`) Edit Photo &rarr;
+        br
+        a(href=`${photo.id}/delete`) Delete Photo &rarr;

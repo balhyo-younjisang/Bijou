@@ -1,0 +1,39 @@
+footer {
+    height: 100;
+    padding: 40px 0;
+    background: #222;
+    border-top: 5px solid #555;
+}
+
+.copyright {
+    text-align: center;
+    margin-left: 20%;
+}
+
+footer .container {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+footer .row {
+    text-align: left;
+}
+
+footer p {
+    font-size: small;
+}
+
+@media (min-width: 768px) {
+    footer.container {
+    width: 750px;
+    }
+}
+
+footer .inline {
+    display: inline;
+}
+
+footer .a-unstyled {
+    text-decoration: none;
+    color: white;
+}

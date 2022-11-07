@@ -20,16 +20,17 @@ export const getEdit = async (req, res, next) => {
 export const postEdit = async (req, res) => {
   const { id } = req.params;
   const { title, description, hashtags, price } = req.body;
-  const { file } = req;
+  const { files } = req;
   const photo = await Photo.exists({_id:id})
   const photoData = await Photo.findById(photo._id);
   if (!photo) {
     return res.status(404).render("404", { pageTitle: "Video not found." });
   }
-  if(file) {
-    await sharp(file.path).resize({width:400, height:500}).toFile(`${file.path}_resize`);
+  if(files) {
+    await sharp(files['main'][0].path).resize({width:400, height:500}).toFile(`${files['main'][0].path}_resize`);
+    await sharp(files['main'][0].path).resize({width:1000, height:1200}).toFile(`${files['main'][0].path}_big`);
     try {
-        fs.unlinkSync(file.path)
+        fs.unlinkSync(files['main'][0].path)
     } catch (error) {
       if(error.code == 'ENOENT'){
           console.log("파일 삭제 Error 발생");
@@ -37,7 +38,9 @@ export const postEdit = async (req, res) => {
     }
   } 
   await Photo.findByIdAndUpdate(photo._id, {
-    mainphotoUrl: file ? file.path + '_resize' : photoData.mainphotoUrl,
+    mainphotoUrl: files ? files['main'][0].path + '_resize' : photoData.mainphotoUrl,
+    bigphotoUrl: files ? files['main'][0].path + '_big': photoData.bigphotoUrl,
+    photosUrl: files ? files['photos'][0].path : photoData.photosUrl,
     title,
     description,
     hashtags: Photo.formatHashtags(hashtags),
@@ -78,13 +81,14 @@ export const getUpload = async (req, res) => {
 export const postUpload = async (req, res) => {
   const {
     body: { title, description, hashtags, price, mainphotoUrl },
-    file,
+    files,
   } = req;
   // let imagePath = `${file.path}`
-  console.log(file.path)
-  await sharp(file.path).resize({width:400, height:500}).toFile(`${file.path}_resize`);
+  console.log(files['main'][0].path)
+  await sharp(files['main'][0].path).resize({width:400, height:500}).toFile(`${files['main'][0].path}_resize`);
+  await sharp(files['main'][0].path).resize({width:1000, height:1200}).toFile(`${files['main'][0].path}_big`);
   try {
-      fs.unlinkSync(file.path)
+      fs.unlinkSync(files['main'][0].path)
   } catch (error) {
     if(error.code == 'ENOENT'){
         console.log("파일 삭제 Error 발생");
@@ -92,7 +96,9 @@ export const postUpload = async (req, res) => {
   }
   try {
     await Photo.create({
-      mainphotoUrl: file.path + '_resize',
+      mainphotoUrl: files['main'][0].path + '_resize',
+      bigphotoUrl: files['main'][0].path + '_big',
+      photosUrl: files['photos'][0].path, 
       title,
       description,
       hashtags: Photo.formatHashtags(hashtags),
