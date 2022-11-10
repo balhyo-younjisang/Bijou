@@ -54,15 +54,26 @@ export const deletePhoto = async (req, res) => {
   const photo = await Photo.exists({_id: id});
   const photoData = await Photo.findById(photo._id);
   const fileUrl = photoData.mainphotoUrl;
-  try {
-    fs.unlinkSync(fileUrl)
-  }  catch (error) { 
-  if(error.code == 'ENOENT'){
-      console.log("파일 삭제 Error 발생");
+  const bigFileUrl = photoData.bigphotoUrl;
+  const zipFileUrl = photoData.photosUrl;
+  console.log(photoData);
+  console.log(photoData);
+  if(res.locals.isAdmin) {
+    try {
+      fs.unlinkSync(fileUrl)
+      fs.unlinkSync(bigFileUrl)
+      fs.unlinkSync(zipFileUrl)
+    }  catch (error) { 
+    if(error.code == 'ENOENT'){
+        console.log("파일 삭제 Error 발생");
+      }
     }
+    await Photo.findByIdAndDelete(id);
+    return res.redirect("/");
   }
-  await Photo.findByIdAndDelete(id);
-  return res.redirect("/");
+  else {
+    return res.status(404).render("404", {pageTitle : "Page not found"});
+  }
 };
 
 export const handleWatch = async (req, res) => {
@@ -71,7 +82,7 @@ export const handleWatch = async (req, res) => {
   if (photo) {
     return res.render("watch", { pageTitle: photo.title, photo });
   }
-  return res.status(404).render("404", { pageTitle: "Photo not found." });
+  return res.status(404).render("404", { pageTitle: "Page not found." });
 };
 
 export const getUpload = async (req, res) => {

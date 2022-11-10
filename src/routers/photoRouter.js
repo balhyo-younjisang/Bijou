@@ -31,4 +31,5 @@ photoRouter
   .all(protectorMiddleware, adminOnlyMiddleware)
   .get(deletePhoto);
 
+
 export default photoRouter;

@@ -3,9 +3,9 @@ extends base
 block content 
     form(method="POST", action="/photos/upload", enctype="multipart/form-data")
         label(for="main") Main photo 
-        input(type="file", id="main-photo", name="main", accept="image/*")
+        input(type="file", id="main-photo", name="main", accept="image/*" required) 
         label(for="photos") Photo file
-        input(type="file", id="photos", name="photos", accept=".zip")
+        input(type="file", id="photos", name="photos", accept=".zip" required)
         br
         label 
             h4 상세 정보

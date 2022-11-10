@@ -41,7 +41,7 @@ export const getLogin = (req, res) => {
 };
 export const postLogin = async (req, res) => {
   const { username, password } = req.body;
-  console.log(req);
+  //console.log(req);
   const user = await User.findOne({ username });
   const pageTitle = "Login";
   if (!user) {

@@ -1,3 +1,4 @@
+import e from "express";
 import multer from "multer";
 
 export const localsMiddleware = (req, res, next) => {
@@ -28,14 +29,14 @@ export const publicOnlyMiddleware = (req, res, next) => {
 export const uploadFiles = multer({ dest: "uploads/" });
 
 export const adminOnlyMiddleware = (req, res, next) => {
-  if (req.session.email === undefined || req.session.user.email !== process.env.ADMIN_EMAIL) {
-    res.locals.isAdmin= false;
-    //console.log(res.locals);
-  } else {
-    res.locals.isAdmin = true;
-    //console.log(res.locals);
-    //req.flash("error", "Not authorized");
-    //return res.redirect("/");
+  if(res.locals.loggedIn) {
+    if(req.session.user.name === 'Admin' && req.session.user.email === process.env.ADMIN_EMAIL) {
+      res.locals.isAdmin = true;
+    }
+    else {
+      res.locals.isAdmin = false;
+    }
   }
+  //console.log(res.locals.isAdmin);
   next();
 };

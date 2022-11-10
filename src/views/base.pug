@@ -34,8 +34,9 @@ html(lang="ko")
                             a(href="/login") Login |
                     li 
                         a(href="/search") Search |
-                    li 
-                        a(href="/photos/upload") Upload 
+                    if isAdmin
+                        li 
+                            a(href="/photos/upload") Upload 
                    
         main
            block content

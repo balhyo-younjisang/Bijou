@@ -1,15 +1,62 @@
 extends base.pug
 
 block header 
-    script(type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js")
+    meta(http-equiv="X-UA-Compatible" content="IE-edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    script(src="https://code.jquery.com/jquery-3.5.1.min.js")
     script(type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js")
-
 block content 
     div.img_container
         img(src="/" + photo.bigphotoUrl)
     div.explain_container
         h2=photo.description
         h2=`$${photo.price}`
-        a(href=`${photo.id}/edit`) Edit Photo &rarr;
+        if loggedIn
+            button(type="button" value="결제하기" onclick='requestPay()')
+                |결제하기
         br
-        a(href=`${photo.id}/delete`) Delete Photo &rarr;
+        if isAdmin
+            a(href=`${photo.id}/edit`) Edit Photo &rarr;
+            br
+            a(href=`${photo.id}/delete`) Delete Photo &rarr;
+        script. 
+            const IMP = window.IMP;
+            IMP.init('imp12311505');
+            function requestPay() {
+                IMP.request_pay({ 
+                    pg: "html5_inicis.INIpayTest",
+                    pay_method: "card",
+                    merchant_uid: 'merchant_' + new Date().getTime(),
+                    name: `#{photo.title}`,
+                    amount: `#{photo.price}`, 
+                    buyer_email: "gildong@gmail.com",
+                    buyer_name: "아무개",
+                    buyer_tel: "010-4242-4242",
+                    buyer_addr: "서울특별시 강남구 신사동",
+                    buyer_postcode: "01181",
+                    m_redirect_url : "http://localhost:4000/mobile/complete"
+                }, function(rsp) {
+                    if (rsp.success) { 
+                        console.log("rsp is success");
+                        jQuery.ajax({
+                            url: "http://localhost:4000/payments/complete", 
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            data: {
+                                imp_uid: rsp.imp_uid,
+                                merchant_uid: rsp.merchant_uid
+                            },
+                            dataType: "json"
+                        }).done(function (data) {
+                            switch(data.status) {
+                                    case "vbankIssued":
+                                        break;
+                                    case "success":
+                                        break;
+                            }
+                        });
+                    } else {
+                        alert("결제에 실패하였습니다. 에러 내용: " +  rsp.error_msg);
+                    }
+                });
+            }
