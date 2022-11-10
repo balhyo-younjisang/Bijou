@@ -15,6 +15,7 @@ import { localsMiddleware, adminOnlyMiddleware } from "./middlewares";
 import mongoose from "mongoose";
 import flash from "express-flash"
 import bodyParser from "body-parser";
+import "dotenv/config";
 
 const app = express();
 const logger = morgan("dev");
