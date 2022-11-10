@@ -41,7 +41,7 @@ block content
                         jQuery.ajax({
                             url: "http://localhost:4000/payments/complete", 
                             method: "POST",
-                            headers: { "Content-Type": "application/json" },
+                            headers: { "Accept": "application/json" },
                             data: {
                                 imp_uid: rsp.imp_uid,
                                 merchant_uid: rsp.merchant_uid

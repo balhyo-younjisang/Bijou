@@ -56,8 +56,6 @@ export const deletePhoto = async (req, res) => {
   const fileUrl = photoData.mainphotoUrl;
   const bigFileUrl = photoData.bigphotoUrl;
   const zipFileUrl = photoData.photosUrl;
-  console.log(photoData);
-  console.log(photoData);
   if(res.locals.isAdmin) {
     try {
       fs.unlinkSync(fileUrl)
