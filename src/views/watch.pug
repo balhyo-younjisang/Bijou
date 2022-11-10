@@ -37,14 +37,13 @@ block content
                     m_redirect_url : "http://localhost:4000/mobile/complete"
                 }, function(rsp) {
                     if (rsp.success) { 
-                        console.log("rsp is success");
                         jQuery.ajax({
                             url: "http://localhost:4000/payments/complete", 
                             method: "POST",
                             headers: { "Accept": "application/json" },
                             data: {
-                                imp_uid: rsp.imp_uid,
-                                merchant_uid: rsp.merchant_uid
+                                imp_uid: `${rsp.imp_uid}`,
+                                merchant_uid: `${rsp.merchant_uid}`
                             },
                             dataType: "json"
                         }).done(function (data) {
