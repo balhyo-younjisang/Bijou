@@ -5,10 +5,10 @@ block content
     form(method="POST", action=`/photos/${photo.id}/edit`, enctype="multipart/form-data")
         label 
             h4 메인 이미지
-        input(name="main", type="file", accept="image/*")
+        input(name="main", type="file", accept="image/*" required)
         label(for="photos") 
             h4 Photo file
-        input(type="file", id="photos", name="photos", accept=".zip")
+        input(type="file", id="photos", name="photos", accept=".zip" required)
         br
         label 
             h4 상세 정보

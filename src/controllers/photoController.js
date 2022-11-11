@@ -11,6 +11,31 @@ export const home = async (req, res) => {
 export const getEdit = async (req, res, next) => {
   const { id } = req.params;
   const photo = await Photo.findById(id);
+  //console.log(photo);
+  const mainphotoUrl = photo.mainphotoUrl;
+  const bigphotoUrl = photo.bigphotoUrl;
+  const zipFileUrl = photo.zipFileUrl;
+  try {
+    fs.unlinkSync(mainphotoUrl)
+  } catch (error) {
+    if(error.code == 'ENOENT'){
+        console.log("파일 삭제 Error 발생");
+    }
+  }
+  try {
+    fs.unlinkSync(bigphotoUrl)
+  } catch (error) {
+    if(error.code == 'ENOENT'){
+        console.log("파일 삭제 Error 발생");
+    }
+  }
+  try {
+    fs.unlinkSync(zipFileUrl)
+  } catch (error) {
+    if(error.code == 'ENOENT'){
+        console.log("파일 삭제 Error 발생");
+    }
+  }
   if (!photo) {
     return res.status(404).render("404", { pageTitle: "Video not found." });
   }

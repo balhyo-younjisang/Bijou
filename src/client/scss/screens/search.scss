@@ -1,0 +1,59 @@
+.search_form {
+    .search_bar {
+        text-align: center;
+    }
+}
+
+.photo-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+}
+
+@media (max-width: 600px) {
+    .photo-container {
+        grid-template-columns: 500px;
+    }
+  
+}
+
+@media (max-width: 1200px) {
+    .photo-container {
+        grid-template-columns: 1fr 1fr;
+    }
+  
+}
+
+
+.photos {
+    width: 400px;
+    display: inline-block;
+    background-color: whitesmoke;
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+.items {
+    text-align: center;
+}
+
+.price {
+    font-weight: bolder;
+}
+
+.photos p {
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+}
+
+.search_form .search_bar {
+    height: 10vh;
+    width: 30vw;
+    border-radius: 30px 0 0 30px;
+}
+
+.search_submit {
+    height: 10vh;
+    width: 5vw;
+    border-radius: 0 30px 30px 0;
+}

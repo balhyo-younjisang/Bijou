@@ -63,22 +63,22 @@ app.use("/photos", photoRouter);
 app.use("/users", userRouter);
 app.use("/terms", termRouter);
 app.post("/payments/complete", async (req, res) => {
-  // console.log("json in the server");
+  console.log("json in the server");
   try {
     const { imp_uid, merchant_uid } = req.body; // req의 body에서 imp_uid, merchant_uid 추출
-    // console.log(imp_uid, merchant_uid);
+    console.log(imp_uid, merchant_uid);
 
     const getToken = await axios({
       url: "https://api.iamport.kr/users/getToken",
       method: "POST", // POST method
-      headers: { "Accept": "application/json" }, // "Content-Type": "application/json"
+      headers: { "Content-Type": "application/json" }, // "Content-Type": "application/json"
       data: {
-          imp_key: process.env.REST_API_KEY, // REST API 키
-          imp_secret: process.env.REST_API_SECRET// REST API Secret
+          imp_key: "1012162520373434", // REST API 키
+          imp_secret: `${process.env.REST_API_SECRET}`// REST API Secret
         }
     });
+    console.log("get token success");      // ----------> 출력 안됨
     const { access_token } = getToken.data.response; //인증 토큰
-    //console.log("get token success");       ----------> 출력 안됨
     // imp_uid로 아임포트 서버에서 결제 정보 조회
     const getPaymentData = await axios({
       url: `https://api.iamport.kr/payments/${imp_uid}`, // imp_uid 전달
@@ -114,7 +114,7 @@ app.post("/payments/complete", async (req, res) => {
       throw { status: "forgery", message: "위조된 결제시도" };
     }
   } catch (e) {
-      res.status(400).send(e);
+      console.log("error 발생");
   }
 });
 app.use((req,res)=> {

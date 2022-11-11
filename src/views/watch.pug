@@ -42,10 +42,10 @@ block content
                             method: "POST",
                             headers: { "Accept": "application/json" },
                             data: {
-                                imp_uid: `${rsp.imp_uid}`,
-                                merchant_uid: `${rsp.merchant_uid}`
+                                imp_uid: rsp.imp_uid,
+                                merchant_uid: rsp.merchant_uid
                             },
-                            dataType: "json"
+                            dataType: "json",
                         }).done(function (data) {
                             switch(data.status) {
                                     case "vbankIssued":

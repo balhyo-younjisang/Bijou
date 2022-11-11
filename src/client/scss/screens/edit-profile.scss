@@ -1,0 +1,30 @@
+.edit-profile-wrap {
+    margin-left: auto;
+    margin-right: auto;
+    height: 50vh;
+    width: 50vw;
+    border: 5px solid gray;
+    border-radius: 10px;
+}
+
+.edit-profile-wrap form, .edit-profile-wrap input {
+    text-align: center;
+}
+
+.edit-profile-wrap input {
+    border: 3px solid black;
+    display: block;
+    border-radius: 15px;
+    font-weight: 500;
+    height: 50px;
+    margin: 1.5rem;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 20px;
+}
+
+.edit-profile-wrap a {
+    display: block;
+    text-align: center;
+    font-size: 15px;
+}

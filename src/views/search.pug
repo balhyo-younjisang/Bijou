@@ -2,9 +2,11 @@ extends base
 include mixins/photo
 
 block content 
-    form(method="GET")  
-        input(placeholder = "Search by title, hashtag", type="text", name="keyword")
-        input(type="submit", value="search now")
-
-    each photo in photos 
-        +photo(photo)
+    div(style="text-align:center; margin-right:auto; margin-left:auto;")
+        form(method="GET").search_form  
+            input(placeholder = "Search by title, hashtag", type="text", name="keyword").search_bar
+            input(type="submit", value="search now").search_submit
+    div.wrap
+        div.photo-container
+            each photo in photos 
+                +photo(photo)
