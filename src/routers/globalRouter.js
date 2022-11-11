@@ -1,4 +1,6 @@
 import express from "express";
+import bodyParser from "body-parser";
+import axios from 'axios';
 import {
   getJoin,
   postJoin,
@@ -10,6 +12,7 @@ import { protectorMiddleware, publicOnlyMiddleware, adminOnlyMiddleware } from "
 
 const globalRouter = express.Router();
 
+globalRouter.use(bodyParser.json());
 globalRouter.get("/", adminOnlyMiddleware, home);
 globalRouter
   .route("/join")
@@ -22,22 +25,21 @@ globalRouter
   .get(getLogin)
   .post(postLogin);
 globalRouter.get("/search", search);
-globalRouter.post("/payments/complete", async (req, res) => {
-  console.log("json in the server");
+globalRouter.route("/payments/complete").post(async (req, res) => {
   try {
     const { imp_uid, merchant_uid } = req.body; // req의 body에서 imp_uid, merchant_uid 추출
-    console.log(imp_uid, merchant_uid);
+    //console.log(imp_uid, merchant_uid);
 
     const getToken = await axios({
       url: "https://api.iamport.kr/users/getToken",
-      method: "POST", // POST method
+      method: "post", // POST method
       headers: { "Content-Type": "application/json" }, // "Content-Type": "application/json"
       data: {
           imp_key: "1012162520373434", // REST API 키
-          imp_secret: `${process.env.REST_API_SECRET}`// REST API Secret
-        }
+          imp_secret: `${process.env.REST_API_SECRET}`
+        }// REST API Secret
     });
-    console.log("get token success");      // ----------> 출력 안됨
+    //console.log("get token success");     
     const { access_token } = getToken.data.response; //인증 토큰
     // imp_uid로 아임포트 서버에서 결제 정보 조회
     const getPaymentData = await axios({
@@ -74,7 +76,7 @@ globalRouter.post("/payments/complete", async (req, res) => {
       throw { status: "forgery", message: "위조된 결제시도" };
     }
   } catch (e) {
-      console.log("error 발생");
+      console.log("error 발생 :", e);
   }
 });
 
