@@ -53,9 +53,7 @@ block content
                                     case "vbankIssued":
                                         break;
                                     case "success":
-                                        if(confirm("구매하였습니다. My Profile에서 구매한 사진집을 보실 수 있습니다. 이동하시겠습니까?") === true) {
-                                            location.href = `/users/#{loggedInUser._id}`
-                                        }
+                                        console.log("결제에 성공했습니다.");
                                         break;
                             }
                         });

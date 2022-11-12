@@ -1,4 +1,3 @@
-import e from "express";
 import multer from "multer";
 
 export const localsMiddleware = (req, res, next) => {
@@ -29,8 +28,8 @@ export const publicOnlyMiddleware = (req, res, next) => {
 export const uploadFiles = multer({ dest: "uploads/" });
 
 export const adminOnlyMiddleware = (req, res, next) => {
-  if(res.locals.loggedIn) {
-    if(req.session.user.name === 'Admin' && req.session.user.email === process.env.ADMIN_EMAIL) {
+  if (res.locals.loggedIn) {
+    if (req.session.user.name === 'Admin' && req.session.user.email === process.env.ADMIN_EMAIL) {
       res.locals.isAdmin = true;
     }
     else {

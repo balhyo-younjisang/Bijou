@@ -19,22 +19,22 @@ export const getEdit = async (req, res, next) => {
   try {
     fs.unlinkSync(mainphotoUrl)
   } catch (error) {
-    if(error.code == 'ENOENT'){
-        console.log("파일 삭제 Error 발생");
+    if (error.code == 'ENOENT') {
+      console.log("파일 삭제 Error 발생");
     }
   }
   try {
     fs.unlinkSync(bigphotoUrl)
   } catch (error) {
-    if(error.code == 'ENOENT'){
-        console.log("파일 삭제 Error 발생");
+    if (error.code == 'ENOENT') {
+      console.log("파일 삭제 Error 발생");
     }
   }
   try {
     fs.unlinkSync(zipFileUrl)
   } catch (error) {
-    if(error.code == 'ENOENT'){
-        console.log("파일 삭제 Error 발생");
+    if (error.code == 'ENOENT') {
+      console.log("파일 삭제 Error 발생");
     }
   }
   if (!photo) {
@@ -47,25 +47,25 @@ export const postEdit = async (req, res) => {
   const { id } = req.params;
   const { title, description, hashtags, price } = req.body;
   const { files } = req;
-  const photo = await Photo.exists({_id:id})
+  const photo = await Photo.exists({ _id: id })
   const photoData = await Photo.findById(photo._id);
   if (!photo) {
     return res.status(404).render("404", { pageTitle: "Video not found." });
   }
-  if(files) {
-    await sharp(files['main'][0].path).resize({width:400, height:500}).toFile(`${files['main'][0].path}_resize`);
-    await sharp(files['main'][0].path).resize({width:1000, height:1200}).toFile(`${files['main'][0].path}_big`);
+  if (files) {
+    await sharp(files['main'][0].path).resize({ width: 400, height: 500 }).toFile(`${files['main'][0].path}_resize`);
+    await sharp(files['main'][0].path).resize({ width: 1000, height: 1200 }).toFile(`${files['main'][0].path}_big`);
     try {
-        fs.unlinkSync(files['main'][0].path)
+      fs.unlinkSync(files['main'][0].path)
     } catch (error) {
-      if(error.code == 'ENOENT'){
-          console.log("파일 삭제 Error 발생");
+      if (error.code == 'ENOENT') {
+        console.log("파일 삭제 Error 발생");
       }
     }
-  } 
+  }
   await Photo.findByIdAndUpdate(photo._id, {
     mainphotoUrl: files ? files['main'][0].path + '_resize' : photoData.mainphotoUrl,
-    bigphotoUrl: files ? files['main'][0].path + '_big': photoData.bigphotoUrl,
+    bigphotoUrl: files ? files['main'][0].path + '_big' : photoData.bigphotoUrl,
     photosUrl: files ? files['photos'][0].path : photoData.photosUrl,
     title,
     description,
@@ -77,18 +77,18 @@ export const postEdit = async (req, res) => {
 
 export const deletePhoto = async (req, res) => {
   const { id } = req.params;
-  const photo = await Photo.exists({_id: id});
+  const photo = await Photo.exists({ _id: id });
   const photoData = await Photo.findById(photo._id);
   const fileUrl = photoData.mainphotoUrl;
   const bigFileUrl = photoData.bigphotoUrl;
   const zipFileUrl = photoData.photosUrl;
-  if(res.locals.isAdmin) {
+  if (res.locals.isAdmin) {
     try {
       fs.unlinkSync(fileUrl)
       fs.unlinkSync(bigFileUrl)
       fs.unlinkSync(zipFileUrl)
-    }  catch (error) { 
-    if(error.code == 'ENOENT'){
+    } catch (error) {
+      if (error.code == 'ENOENT') {
         console.log("파일 삭제 Error 발생");
       }
     }
@@ -96,20 +96,26 @@ export const deletePhoto = async (req, res) => {
     return res.redirect("/");
   }
   else {
-    return res.status(404).render("404", {pageTitle : "Page not found"});
+    return res.status(404).render("404", { pageTitle: "Page not found" });
   }
 };
 
 export const handleWatch = async (req, res) => {
-  const { id } = req.params;
-  const {_id} = req.session.user;
- 
-  const photo = await Photo.findById(id);
-  const user = await User.findById(_id);
-  if (photo) {
-    return res.render("watch", { pageTitle: photo.title, photo, user });
+  try {
+    const { _id } = req.session.user;
+    const { id } = req.params;
+
+    const photo = await Photo.findById(id);
+    const user = await User.findById(_id);
+    if (photo) {
+      return res.render("watch", { pageTitle: photo.title, photo, user });
+    }
+    return res.status(404).render("404", { pageTitle: "Page not found." });
+  } catch (e) {
+    req.flash("error", "로그인 후 이용해주세요");
+    return res.redirect("/login");
   }
-  return res.status(404).render("404", { pageTitle: "Page not found." });
+
 };
 
 export const getUpload = async (req, res) => {
@@ -123,20 +129,20 @@ export const postUpload = async (req, res) => {
   } = req;
   // let imagePath = `${file.path}`
   console.log(files['main'][0].path)
-  await sharp(files['main'][0].path).resize({width:400, height:500}).toFile(`${files['main'][0].path}_resize`);
-  await sharp(files['main'][0].path).resize({width:1000, height:1200}).toFile(`${files['main'][0].path}_big`);
+  await sharp(files['main'][0].path).resize({ width: 400, height: 500 }).toFile(`${files['main'][0].path}_resize`);
+  await sharp(files['main'][0].path).resize({ width: 1000, height: 1200 }).toFile(`${files['main'][0].path}_big`);
   try {
-      fs.unlinkSync(files['main'][0].path)
+    fs.unlinkSync(files['main'][0].path)
   } catch (error) {
-    if(error.code == 'ENOENT'){
-        console.log("파일 삭제 Error 발생");
+    if (error.code == 'ENOENT') {
+      console.log("파일 삭제 Error 발생");
     }
   }
   try {
     await Photo.create({
       mainphotoUrl: files['main'][0].path + '_resize',
       bigphotoUrl: files['main'][0].path + '_big',
-      photosUrl: files['photos'][0].path, 
+      photosUrl: files['photos'][0].path,
       title,
       description,
       hashtags: Photo.formatHashtags(hashtags),
