@@ -1,4 +1,5 @@
 import Photo from "../models/Photo";
+import User from "../models/User";
 import sharp from "sharp";
 import fs from "fs";
 
@@ -101,9 +102,12 @@ export const deletePhoto = async (req, res) => {
 
 export const handleWatch = async (req, res) => {
   const { id } = req.params;
+  const {_id} = req.session.user;
+ 
   const photo = await Photo.findById(id);
+  const user = await User.findById(_id);
   if (photo) {
-    return res.render("watch", { pageTitle: photo.title, photo });
+    return res.render("watch", { pageTitle: photo.title, photo, user });
   }
   return res.status(404).render("404", { pageTitle: "Page not found." });
 };

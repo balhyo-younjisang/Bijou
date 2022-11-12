@@ -29,11 +29,8 @@ block content
                     merchant_uid: 'merchant_' + new Date().getTime(),
                     name: `#{photo.title}`,
                     amount: `#{photo.price}`, 
-                    buyer_email: "gildong@gmail.com",
-                    buyer_name: "아무개",
-                    buyer_tel: "010-4242-4242",
-                    buyer_addr: "서울특별시 강남구 신사동",
-                    buyer_postcode: "01181",
+                    buyer_email: `#{user.email}`,
+                    buyer_name: `#{user.name}`,
                     m_redirect_url : "http://localhost:4000/mobile/complete"
                 }, function(rsp) {
                     if (rsp.success) { 
