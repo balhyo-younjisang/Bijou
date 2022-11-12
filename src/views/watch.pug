@@ -40,7 +40,9 @@ block content
                             headers: { "Accept": "application/json" },
                             data: {
                                 imp_uid: rsp.imp_uid,
-                                merchant_uid: rsp.merchant_uid
+                                merchant_uid: rsp.merchant_uid,
+                                username : `#{user.username}`,
+                                id : `#{photo.id}`
                             },
                             dataType: "json",
                         }).done(function (data) {
