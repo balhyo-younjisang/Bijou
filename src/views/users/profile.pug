@@ -1,5 +1,8 @@
 extends ../base
+include ../mixins/order
 
 block content 
     h1.center=user.username
-    
+    h2.center 구매내역
+    each Data in orderData  
+        +order(Data)

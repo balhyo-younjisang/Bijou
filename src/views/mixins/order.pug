@@ -1,0 +1,12 @@
+mixin order(Data) 
+    div.Datas 
+        details
+            summary
+                h2=Data.title
+               
+            div  
+                h3.dates=Data.date
+                h3=`₩${Data.price}`
+                h3=`구매자 이메일 : ${Data.buyer_email}`
+                h3=`구매자 성함 : ${Data.buyer_name}` 
+        

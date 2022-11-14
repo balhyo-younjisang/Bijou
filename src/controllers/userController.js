@@ -1,5 +1,7 @@
 import User from "../models/User";
 import bcrypt from "bcrypt";
+import Photo from "../models/Photo";
+import Order from "../models/Order";
 export const getJoin = (req, res) => {
   res.render("join", { pageTitle: "Join" });
 };
@@ -134,12 +136,21 @@ export const postChangePassword = async (req, res) => {
 export const see = async (req, res) => {
   const { id } = req.params;
   const user = await User.findById(id);
-  console.log(user);
+  const orderData = await Order.find({ $and: [{ buyer_name: user.username }, { buyer_email: user.email }] });
+  console.log(orderData[0]);
+
   if (!user) {
     return res.status(404).render("404", { pageTitle: "User not found." });
   }
   return res.render("users/profile", {
     pageTitle: user.name,
     user,
+    orderData
   });
 };
+
+export const deleteUser = async (req, res) => {
+  const { _id } = req.session.user;
+  await User.findByIdAndRemove(_id);
+  return res.redirect("/users/logout");
+}

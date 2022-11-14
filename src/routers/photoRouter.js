@@ -12,6 +12,7 @@ import {
   protectorMiddleware,
   uploadFiles,
   adminOnlyMiddleware,
+  buyOnlyMiddleware
 } from "../middlewares";
 
 const photoRouter = express.Router();
@@ -31,7 +32,7 @@ photoRouter
   .route("/:id([0-9a-f]{24})/delete")
   .all(protectorMiddleware, adminOnlyMiddleware)
   .get(deletePhoto);
-photoRouter.route("/:id([0-9a-f]{24})/download").all(protectorMiddleware).get(getDownloadPhotos);
+photoRouter.route("/:id([0-9a-f]{24})/download").all(protectorMiddleware, buyOnlyMiddleware).get(getDownloadPhotos);
 
 
 export default photoRouter;

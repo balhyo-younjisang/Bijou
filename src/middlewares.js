@@ -1,4 +1,6 @@
 import multer from "multer";
+import User from "./models/User";
+import Photo from "./models/Photo";
 
 export const localsMiddleware = (req, res, next) => {
   res.locals.siteName = "Bijou";
@@ -40,3 +42,16 @@ export const adminOnlyMiddleware = (req, res, next) => {
   //console.log(res.locals.isAdmin);
   next();
 };
+
+export const buyOnlyMiddleware = async (req, res, next) => {
+  const { _id } = req.session.user;
+  const { id } = req.params;
+  const user = await User.findById({ _id });
+  const photo = await Photo.findById(id);
+  console.log(user, photo);
+  if (user.buylist.find(element => element === photo.title)) {
+    next();
+  } else {
+    return res.status(404).render("404", { pageTitle: "Page not found." })
+  }
+}

@@ -8,5 +8,9 @@ block content
             input(type="submit", value="search now").search_submit
     div.wrap
         div.photo-container
-            each photo in photos 
-                +photo(photo)
+            if photo
+                each photo in photos 
+                    +photo(photo)
+            else 
+                h1(style="text-align:center;") No results found...
+            

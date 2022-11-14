@@ -1,3 +1,54 @@
 .center {
     text-align: center;
 }
+
+.Datas {
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 15px;
+}
+
+details {
+    margin-bottom: 1rem;
+}
+
+details > summary {
+    background: rgb(255, 255, 255);
+    padding: 1rem;
+    outline: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.5s;
+}
+
+details > summary::-webkit-details-marker {
+    background: url(https://marshall-storage.tistory.com/attachment/cfile29.uf@993E16335F785C0037CB43.svg) no-repeat center;
+    background-size: contain;
+    color: transparent;
+    transform: rotate3d(0, 0, 1, 90deg);
+    transition: transform 0.25s;
+}
+
+details[open] > summary::-webkit-details-marker {
+    transform: rotate3d(0, 0, 1, 180deg);
+}
+
+details[open] > summary {
+    background: whitesmoke;
+}
+
+details[open] > summary ~ * {
+    animation: reveal 0.5s;
+}
+
+@keyframes reveal {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -10px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
