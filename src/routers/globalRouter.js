@@ -71,9 +71,11 @@ globalRouter.route("/payments/complete").post(async (req, res) => {
         price: amount,
         merchant_uid,
       });
+      // console.log(req.session);
       const orderData = await Order.findOne({ merchant_uid });
       //console.log(orderData);
       const userInfo = await User.findOne({ username });
+
       userInfo.buylist.push(title);
       await userInfo.save();
 
@@ -126,7 +128,7 @@ globalRouter.route("/mobile/complete").post(async (req, res) => {
     if (amount === parseInt(amountToBePaid)) { // 결제 금액 일치. 결제 된 금액 === 결제 되어야 하는 금액
       //await Orders.findByIdAndUpdate(merchant_uid, { $set: paymentData }); // DB에 결제 정보 저장
       await Order.create({
-        date: `${new Date().getFullYear()}.${new Date().getMonth()}.${new Date().getDay()}`,
+        date: `${new Date()}`,
         buyer_name: name,
         buyer_email: useremail,
         title,

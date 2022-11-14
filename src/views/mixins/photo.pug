@@ -5,9 +5,8 @@ mixin photo(photo)
                     img(src="/"+photo.mainphotoUrl, width=400, height=500)
             h4.items 
                 a(href=`/photos/${photo.id}`)=photo.title
-            p.items=photo.description
             ul.items.list-unstyled
                 each hashtag in photo.hashtags
                     li=hashtag
-            p.items.price=`$${photo.price}`
+            p.items.price=`₩${photo.price}`
         

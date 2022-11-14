@@ -9,22 +9,30 @@ block content
     div.img_container
         img(src="/" + photo.bigphotoUrl)
     div.explain_container
+        h1=photo.title
         h2=photo.description
-        h2=`$${photo.price}`
-        if loggedIn
+        h2=`₩${photo.price}`
+        if !user.buylist.find(function(data){ return data === photo.title}) 
             button(type="button" value="결제하기" onclick='requestPay()')
                 |카드, 카카오페이, 네이버 페이로 결제하기
+        else 
+            p 이미 결제된 상품입니다.
+            button(type="button" value="돌아가기" onclick="moveDownload()") 
+                |다운로드
         br
         if isAdmin
             a(href=`${photo.id}/edit`) Edit Photo &rarr;
             br
             a(href=`${photo.id}/delete`) Delete Photo &rarr;
-        script. 
-            const IMP = window.IMP;
+        script.
+            function moveDownload() {
+                location.href=`#{photo.id}/download`
+            } 
+
             IMP.init('imp12311505');
             function requestPay() {
                 IMP.request_pay({ 
-                    pg: "html5_inicis.INIpayTest",
+                    pg: "inicis",
                     pay_method: "card",
                     merchant_uid: 'merchant_' + new Date().getTime(),
                     name: `#{photo.title}`,
